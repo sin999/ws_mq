@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar-bnd xmlns="http://websphere.ibm.com/xml/ns/javaee"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://websphere.ibm.com/xml/ns/javaee http://websphere.ibm.com/xml/ns/javaee/ibm-ejb-jar-bnd_1_0.xsd"
+             version="1.0">
+
+    <session name="MessageSender">
+        <resource-ref name="ConnectionFactory" binding-name="jms/SIN_QM1"/>
+        <message-destination-ref name="Queue" binding-name="jms/SIN_OUT_QUEUE"/>
+    </session>
+
+    <!--<message-driven name="DataMDB">-->
+        <!--<jca-adapter activation-spec-binding-name="jms/SIN_IN_QUEUE_ACTIVATION"-->
+                     <!--destination-binding-name="jms/SIN_IN_QUEUE_ACTIVATION" />-->
+        <!--<resource-ref name="ConnectionFactory"-->
+                      <!--binding-name="jms/SIN_QM1" />-->
+        <!--&lt;!&ndash;<resource-env-ref name="jms/dataDestinationQ"&ndash;&gt;-->
+                          <!--&lt;!&ndash;binding-name="jms/dataDestinationQ" />&ndash;&gt;-->
+    <!--</message-driven>-->
+
+    <message-driven name="MDBExample">
+        <jca-adapter activation-spec-binding-name="SIN_IN_LISTENER"
+                     destination-binding-name="jms/SIN_IN_QUEUE" />
+    </message-driven>
+</ejb-jar-bnd>

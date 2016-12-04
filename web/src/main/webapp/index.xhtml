@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+<script type="text/javascript">
+    /*создаем объект WebSocked и указываем путь для подключения.
+     * Подключение произойдет сразу после создания компонента.
+     */
+    var webSocket = new WebSocket("ws://localhost:9090/ws_lesson1/websocket");
+    var messages=document.getElementById("messages");
+    var message=document.getElementById("message");
+    //обработчик события открытия соединения с сервером
+    webSocket.onopen=function(message){
+        messages.value+="Соединение установлено \n";
+    };
+    //обработчик события закрытия соединения с сервером
+    webSocket.onclose=function(message){
+        messages.value+="Соединение закрыто \n";
+    }
+    //обработчик ошибки при работе с сокетом.
+    webSocket.onerror=function (message){
+        messages.value+="Произошла ошибка \n";
+    }
+    //обработчик нажатия кнопки отправки сообщения
+    function sendMessage(){
+        //отправляем сообщение на сервер
+        webSocket.send(message.value);
+        messages.value+="На сервер отправлено:>"+message.value+" \n";
+        message.value="";
+    }
+    //обработчик получения сообщения ОТ сервера.
+    webSocket.onmessage=function(message){
+        messages.value+="Получено сообщение от сервера: "+message.data+" \n";
+    }
+</script>
+<h:head>
+    <title>JSF 2.0 Hello World</title>
+</h:head>
+<h:body>
+    <h2>JSF 2.0 Hello World Example - hello.xhtml</h2>
+    <h:form>
+        <h:inputText value=""></h:inputText>
+        <h:commandButton value="Welcome Me" action="welcome"></h:commandButton>
+        <input type="text" id="message" />
+        <input value="Отправить" onclick="sendMessage();" type="button"/>
+        <hr/>
+        <textarea readonly="readonly" id="messages" rows="15" cols="60"></textarea>
+
+    </h:form>
+
+</h:body>
+</html>
